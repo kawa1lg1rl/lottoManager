@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TaxActivity">
+
+    <TextView
+        android:id="@+id/tax_explanation_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="@string/tax_explanation"/>
+
+    <LinearLayout
+        android:id="@+id/tax_calculator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="10">
+        <TextView
+            android:id="@+id/calculated_first_prize"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text=""
+            android:autoSizeTextType="uniform"/>
+
+        <EditText
+            android:id="@+id/input_prize"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:hint="당첨금을 입력해주세요"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:id="@+id/inputed_prize"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:autoSizeTextType="uniform"
+            />
+
+
+        <TextView
+            android:id="@+id/calculated_prize"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:autoSizeTextType="uniform"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>

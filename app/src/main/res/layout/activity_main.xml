@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_drawer_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10"
+        >
+
+        <LinearLayout
+            android:id="@+id/current_lotto_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="#E3F2FD"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="8"
+            >
+
+            <Button
+                android:id="@+id/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:autoSizeTextType="uniform"
+                android:text="당첨번호 갱신" />
+
+            <TextView
+                android:id="@+id/current_lotto_count"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="test" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/current_lottonumber"
+                    layout="@layout/lottonumbers_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/current_lotto_prize"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="test" />
+
+            <TextView
+                android:id="@+id/current_lotto_date"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="test" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_generated_random_numbers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:text="랜덤 번호 생성"
+            android:autoSizeTextType="uniform"
+            />
+
+        <Button
+            android:id="@+id/button_saved_numbers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:text="생성된 번호 보기"
+            android:autoSizeTextType="uniform"
+            />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/left_menu_bar"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fillViewport="true"
+        >
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true"
+                android:text="상세 메뉴입니다"
+                android:textColor="#f70"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="24dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"/>
+
+            <TextView
+                android:id="@+id/button_create_numbers_view_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="번호 직접 생성"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
+            <TextView
+                android:id="@+id/button_generated_random_numbers_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="번호 랜덤 생성"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
+            <TextView
+                android:id="@+id/button_saved_numbers_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="생성된 번호 보기"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
+            <TextView
+                android:id="@+id/button_tax_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="세금계산"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
+            <TextView
+                android:id="@+id/button_bought_number_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="구입한 번호 저장"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">lotto</string>
+    <string name="ad_intro">"눌러서 앱 시작"</string>
+    <string name="tagName">kawa1lg1rl_tag</string>
+    <string name="prefsGeneratedNumbers">prefsGeneratedNumbers</string>
+    <string name="tax_explanation">
+"- 5만원 이상 ~ 3억원 미만 당첨금 -
+소득세 20% + 주민세 2%
+
+- 3억원 이상 당첨금 -
+소득세 30% + 주민세 3%
+
+ * 3억원 이상의 경우 분리과세 적용
+ * 예시 당첨금) 4억원
+3억의 22% + (3억을 초과한) 1억의 33% = 0.99억
+
+ * 계산기의 결과는 정확하지 않을 수 있습니다.
+
+설명을 읽으셨으면 터치해주세요"</string>
+</resources>
