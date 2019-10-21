@@ -13,7 +13,7 @@ import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.activity.CreateNumbersActivity
 
-class InputLottoNumbersAdapter(val context: Context, var itemList:List<Int>, var onClickListener: Function<Unit>) :
+class InputLottoNumbersAdapter(val context: Context, var itemList:List<Int>, var onClickListener: (Int) -> (View) -> Unit) :
     RecyclerView.Adapter<com.kawa1lg1rl.lotto.adapter.InputLottoNumbersAdapter.ImageHolder>() {
 
     // 확장함수
@@ -26,17 +26,14 @@ class InputLottoNumbersAdapter(val context: Context, var itemList:List<Int>, var
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         var item = itemList[position]
 
-
         // 이미지 설정
         holder.imageView.loadImage(context.resources.getIdentifier("number_$item", "drawable", context.packageName))
         holder.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
 
-        holder.imageView.setOnClickListener(View.OnClickListener {
-            onClickListener.
-        })
+        holder.imageView.setOnClickListener(onClickListener(item))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {c
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
         return ImageHolder(LayoutInflater.from(context).inflate(R.layout.one_number_item, parent, false))
     }
 

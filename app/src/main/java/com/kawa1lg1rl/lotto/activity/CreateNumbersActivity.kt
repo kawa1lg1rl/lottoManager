@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,12 +25,26 @@ import kotlinx.android.synthetic.main.activity_create_numbers.*
 
 class CreateNumbersActivity : AppCompatActivity() {
 
+    fun ImageView.loadImage(resourceId: Int) {
+        Glide.with(this).load(resourceId).into(this)
+    }
+
     var numbersList: List<Int> = listOf()
+    var onClick: (Int) -> (View) -> Unit = {
+        number -> {
+            view -> inputNumber(number)
+        }
+    }
+
+    var lottonumbersArray: List<ImageView> = listOf()
+    var numbers: List<Int> = listOf()
+    var requestManager = App.getGlideObject(App.context())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_numbers)
-        init()
+
+        var sp = MySharedPreferences(R.string.prefsGeneratedNumbers)
 
         custom_save_button1.setOnClickListener {
             var time = System.currentTimeMillis()
@@ -38,7 +53,7 @@ class CreateNumbersActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "숫자가 6개 미만입니다.", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(applicationContext, "숫자가 정상적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
-                MySharedPreferences(R.string.prefsGeneratedNumbers).addStrings("${time}_0", numbers.toTypedArray())
+                sp.addStrings("${time}_0", numbers.toTypedArray())
             }
 
         }
@@ -60,7 +75,7 @@ class CreateNumbersActivity : AppCompatActivity() {
             numbersList += i
         }
 
-        val lottoAdapter = InputLottoNumbersAdapter(this, numbersList)
+        val lottoAdapter = InputLottoNumbersAdapter(this, numbersList, onClick)
         lottonumbers_grid_layout.adapter = lottoAdapter
         lottonumbers_grid_layout.layoutManager = GridLayoutManager(this, 6)
     }
@@ -89,57 +104,35 @@ class CreateNumbersActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    companion object {
-        fun ImageView.loadImage(resourceId: Int) {
-            Glide.with(this).load(resourceId).into(this)
-        }
 
-        var lottonumbersArray: List<ImageView> = listOf()
-        var numbers: List<Int> = listOf()
-        var requestManager = App.getGlideObject(App.context())
-
-        fun init() {
-            lottonumbersArray = listOf()
-            numbers = listOf()
-        }
-
-        fun inputNumber(number:Int) {
-            if(numbers.size < 6) {
-                if(number in numbers) {
-                    //
-                } else {
-                    numbers += number
-                    numbers = numbers.sorted()
-                    setNumbersView()
-                }
+    fun inputNumber(number:Int) {
+        if(numbers.size < 6) {
+            if(number in numbers) {
+                //
             } else {
+                numbers += number
+                numbers = numbers.sorted()
                 setNumbersView()
             }
+        } else {
+            setNumbersView()
         }
+    }
 
-        fun setNumbersView() {
-            if(numbers.size == 0) {
-                for(imageView in lottonumbersArray) {
-                    imageView.setImageResource(0)
-                }
-            } else {
-                var i = 0
-                for(number in numbers){
-                    requestManager.load(App.context().resources.getIdentifier("number_$number", "drawable" , App.context().packageName)).into(
-                        lottonumbersArray[i])
+    fun setNumbersView() {
+        if(numbers.size == 0) {
+            for(imageView in lottonumbersArray) {
+                imageView.setImageResource(0)
+            }
+        } else {
+            var i = 0
+            for(number in numbers){
+                requestManager.load(App.context().resources.getIdentifier("number_$number", "drawable" , App.context().packageName)).into(
+                    lottonumbersArray[i])
 //                    lottonumbersArray[i].loadImage(App.context().resources.getIdentifier("number_$number", "drawable" , App.context().packageName))
-                    i = i + 1
-                }
+                i = i + 1
             }
         }
     }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-
-
 
 }

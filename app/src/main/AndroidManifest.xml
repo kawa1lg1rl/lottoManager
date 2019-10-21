@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.BoughtNumbersActivity"></activity>
+        <activity android:name=".activity.ViewBoughtNumbersActivity"></activity>
+        <activity
+            android:name=".activity.BoughtNumbersActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".activity.TaxActivity" />
         <activity
             android:name=".activity.CreateNumbersActivity"

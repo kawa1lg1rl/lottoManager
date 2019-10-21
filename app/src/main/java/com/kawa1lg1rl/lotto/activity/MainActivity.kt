@@ -16,6 +16,7 @@ import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.TextView
+import org.jetbrains.anko.startActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -82,52 +83,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setAllIntent() {
+
+
         button_create_numbers_view_in_menu.setOnClickListener{
-            var nextIntent = Intent(this, CreateNumbersActivity::class.java)
-            startActivity(nextIntent)
+            startActivity<CreateNumbersActivity>()
         }
 
         button_generated_random_numbers_in_menu.setOnClickListener{
-            var nextIntent = Intent(this, GenerateNumbersActivity::class.java)
-            startActivity(nextIntent)
+            startActivity<GenerateNumbersActivity>()
         }
 
         button_saved_numbers_in_menu.setOnClickListener {
-            var nextIntent = Intent(this, ViewLottonumbersActivity::class.java)
-            startActivity(nextIntent)
+            startActivity<ViewLottonumbersActivity>()
         }
 
         button_tax_in_menu.setOnClickListener {
-            var nextIntent = Intent(this, TaxActivity::class.java)
-            nextIntent.putExtra("firstPrize", lottoResult!!.firstPrize)
-            startActivity(nextIntent)
+            startActivity<TaxActivity>("firstPrize" to lottoResult!!.firstPrize)
         }
 
         button_bought_number_in_menu.setOnClickListener {
-            var nextIntent = Intent(this, BoughtNumbersActivity::class.java)
-            startActivity(nextIntent)
+            startActivity<BoughtNumbersActivity>()
+        }
+
+        button_view_bought_number_in_menu.setOnClickListener{
+            startActivity<ViewBoughtNumbersActivity>()
         }
 
         button_generated_random_numbers.setOnClickListener {
-            var nextIntent = Intent(this, GenerateNumbersActivity::class.java)
-            startActivity(nextIntent)
-        }
-
-        button_generated_random_numbers.setOnClickListener {
-            var nextIntent = Intent(this, GenerateNumbersActivity::class.java)
-            startActivity(nextIntent)
+            startActivity<GenerateNumbersActivity>()
         }
 
         button_saved_numbers.setOnClickListener {
-            var nextIntent = Intent(this, ViewLottonumbersActivity::class.java)
-            startActivity(nextIntent)
+            startActivity<ViewLottonumbersActivity>()
         }
 
     }
 
     fun setCurrentLottoView() {
 
-        lottoResult = RequestLottoResult()
+        lottoResult = RequestLottoResult.instance
         var lottoResultAsyncTask = object : AsyncTask<Unit, Unit, Unit>() {
             override fun doInBackground(vararg p0: Unit?) {
                 lottoResult!!.requestCurrentLottoResult()

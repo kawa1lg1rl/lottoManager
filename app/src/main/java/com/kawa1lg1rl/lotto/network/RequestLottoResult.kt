@@ -19,6 +19,12 @@ class RequestLottoResult {
     var lotto_debug: Boolean = false
 
 
+    // 싱글톤을 위한
+    companion object {
+        var instance = RequestLottoResult()
+    }
+
+
     fun requestCurrentLottoResult() {
         var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
 

@@ -191,6 +191,17 @@
                 android:background="#efefef"
                 />
 
+            <TextView
+                android:id="@+id/button_view_bought_number_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="구입한 번호 보기"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
         </LinearLayout>
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

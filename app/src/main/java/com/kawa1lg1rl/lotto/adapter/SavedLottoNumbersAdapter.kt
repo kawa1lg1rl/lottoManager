@@ -3,6 +3,7 @@ package com.kawa1lg1rl.lotto.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
@@ -13,7 +14,7 @@ import com.kawa1lg1rl.lotto.item.LottoNumbersItem
 import com.kawa1lg1rl.lotto.R
 
 
-class SavedLottoNumbersAdapter(val context: Context, var itemList:List<LottoNumbersItem>) : RecyclerView.Adapter<SavedLottoNumbersAdapter.NumbersHolder>() {
+class SavedLottoNumbersAdapter(val context: Context, var itemList:List<LottoNumbersItem>, var layoutForInflate: String) : RecyclerView.Adapter<SavedLottoNumbersAdapter.NumbersHolder>() {
 
     // 확장함수
     fun ImageView.loadImage(resourceId: Int) {
@@ -21,7 +22,7 @@ class SavedLottoNumbersAdapter(val context: Context, var itemList:List<LottoNumb
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NumbersHolder {
-        return NumbersHolder(LayoutInflater.from(context).inflate(R.layout.lottonumbers_view2, parent, false))
+        return NumbersHolder(LayoutInflater.from(context).inflate(context.resources.getIdentifier(layoutForInflate, "layout", context.packageName), parent, false))
     }
 
     override fun getItemCount(): Int {

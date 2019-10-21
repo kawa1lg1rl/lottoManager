@@ -3,6 +3,8 @@
     <string name="ad_intro">"눌러서 앱 시작"</string>
     <string name="tagName">kawa1lg1rl_tag</string>
     <string name="prefsGeneratedNumbers">prefsGeneratedNumbers</string>
+    <string name="prefsBoughtNumbers">prefsBoughtNumbers</string>
+    <string name="prefsBoughtNumbersCount">prefsBoughtNumbersCount</string>
     <string name="tax_explanation">
 "- 5만원 이상 ~ 3억원 미만 당첨금 -
 소득세 20% + 주민세 2%

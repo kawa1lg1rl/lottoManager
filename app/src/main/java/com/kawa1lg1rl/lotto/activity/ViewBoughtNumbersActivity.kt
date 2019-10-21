@@ -8,33 +8,43 @@ import android.view.Menu
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.adapter.SavedLottoNumbersAdapter
+import com.kawa1lg1rl.lotto.adapter.SavedLottoNumbersAdapterAnko
+import com.kawa1lg1rl.lotto.data.MySharedPreferences
 import com.kawa1lg1rl.lotto.item.LottoNumbersItem
 
-class ViewLottonumbersActivity : AppCompatActivity() {
+class ViewBoughtNumbersActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_lottonumbers)
 
         var items : List<LottoNumbersItem> = listOf()
+        var countItems : List<String> = listOf()
 
-        for (entry in App.lottoNumbersPrefs!!.getAllSet().entries) {
+        var sp = MySharedPreferences(R.string.prefsBoughtNumbers)
+        var spCount = MySharedPreferences(R.string.prefsBoughtNumbersCount)
+        var totalCount = spCount.getAllSet()
+
+        for (entry in sp.getAllSet().entries) {
+
+            var currentCouont = totalCount.get(entry.key)
 
             var item = LottoNumbersItem()
             item.numbers = (entry.value as MutableSet<String>).map { it.toInt() }.toTypedArray()
             item.numbers!!.sort()
             item.name =  entry.key
 
+            countItems += currentCouont.toString()
             items += item
         }
 
-        val lottoAdapter = SavedLottoNumbersAdapter(this, items, "lottonumbers_view2")
+
+        val lottoAdapter = SavedLottoNumbersAdapterAnko(this, items, countItems)
         findViewById<RecyclerView>(R.id.saved_numbers_list).adapter = lottoAdapter
         findViewById<RecyclerView>(R.id.saved_numbers_list).layoutManager = LinearLayoutManager(this)
     }
@@ -59,7 +69,7 @@ class ViewLottonumbersActivity : AppCompatActivity() {
         }
 
         var title = findViewById<TextView>(R.id.title)
-        title.text = "저장한 번호 보기"
+        title.text = "구입한 번호 보기"
 
         return super.onCreateOptionsMenu(menu)
     }
