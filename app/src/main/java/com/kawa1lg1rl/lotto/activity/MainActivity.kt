@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     var lottonumbersArray: List<ImageView> = listOf()
-    var lottoResult:RequestLottoResult? = null
+    var requestLottoResult:RequestLottoResult? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_tax_in_menu.setOnClickListener {
-            startActivity<TaxActivity>("firstPrize" to lottoResult!!.firstPrize)
+            startActivity<TaxActivity>("firstPrize" to RequestLottoResult.currentResult.firstPrize)
         }
 
         button_bought_number_in_menu.setOnClickListener {
@@ -121,21 +121,21 @@ class MainActivity : AppCompatActivity() {
 
     fun setCurrentLottoView() {
 
-        lottoResult = RequestLottoResult.instance
+        requestLottoResult = RequestLottoResult.instance
         var lottoResultAsyncTask = object : AsyncTask<Unit, Unit, Unit>() {
             override fun doInBackground(vararg p0: Unit?) {
-                lottoResult!!.requestCurrentLottoResult()
+                requestLottoResult!!.requestCurrentLottoResult()
             }
 
             override fun onPostExecute(result: Unit?) {
                 super.onPostExecute(result)
 
-                current_lotto_count.setText(lottoResult!!.count)
-                current_lotto_date.setText(lottoResult!!.date)
-                current_lotto_prize.setText(lottoResult!!.firstPrize)
+                current_lotto_count.setText( RequestLottoResult.currentResult.count.toString() + "회")
+                current_lotto_date.setText( RequestLottoResult.currentResult.date )
+                current_lotto_prize.setText( RequestLottoResult.currentResult.firstPrize.toString().format("") )
 
                 var count = 0
-                lottoResult!!.numbers.map {
+                RequestLottoResult.currentResult.numbers.map {
                     lottonumbersArray[count].loadImage(resources.getIdentifier("number_$it", "drawable", packageName))
                     count ++
                 }

@@ -50,7 +50,7 @@ class BoughtNumbersActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "회차를 입력하지 않아 현재 회차로 저장됩니다.", Toast.LENGTH_SHORT).show()
 
                 sp.addStrings("${time}", numbers.toTypedArray())
-                spCount.addString("${time}", RequestLottoResult.instance.count!!)
+                spCount.addString("${time}", RequestLottoResult.currentResult.count.toString() + "회")
             } else {
                 Toast.makeText(applicationContext, "숫자가 정상적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
 
