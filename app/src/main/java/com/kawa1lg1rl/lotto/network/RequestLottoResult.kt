@@ -24,6 +24,29 @@ class RequestLottoResult {
         lateinit var currentResult: LottoResult
     }
 
+    fun isWinning(lottoNumbers : BoughtLottoNumbers) : String{
+        var count = lottoNumbers.count
+
+        var tempNumbers = requestResult(count)
+
+        var winningCount = 0
+        lottoNumbers.lottoNumbers.mapIndexed { index, i ->
+            if( tempNumbers.numbers[index] == i ) {
+                winningCount ++
+            }
+        }
+
+        var winning = ""
+        when(winningCount) {
+            6 -> winning = "1등"
+            5 -> if( lottoNumbers.lottoNumbers.contains(tempNumbers.numbers[6]) ) "2등" else "3등"
+            4 -> "4등"
+            3 -> "5등"
+        }
+
+        return winning
+    }
+
 
     fun requestCurrentLottoResult() : LottoResult {
         var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
@@ -97,9 +120,5 @@ class RequestLottoResult {
         numbers.map {
             Log.d("kawa1lg1rl_tag2", "!!!! number test !!!! : " + it)
         }
-    }
-
-    fun isWinning(lotto : BoughtLottoNumbers) {
-
     }
 }
