@@ -41,12 +41,23 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
 
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+        />
 
     <ImageView
         android:id="@+id/lottonumbers_number_plus"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="0.7"/>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+        />
 
     <ImageView
         android:id="@+id/lottonumbers_number_7"
