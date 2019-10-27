@@ -20,6 +20,8 @@ import com.kawa1lg1rl.lotto.data.MySharedPreferences
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import kotlinx.android.synthetic.main.activity_bought_numbers.*
 import kotlinx.android.synthetic.main.lottonumbers_view2.*
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -52,10 +54,19 @@ class BoughtNumbersActivity : AppCompatActivity() {
                 sp.addStrings("${time}", numbers.toTypedArray())
                 spCount.addString("${time}", RequestLottoResult.currentResult.count.toString() + "회")
             } else {
-                Toast.makeText(applicationContext, "숫자가 정상적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
+
 
                 sp.addStrings("${time}", numbers.toTypedArray())
-                spCount.addString("${time}", input_bought_count.text.toString() + "회")
+
+                if( input_bought_count.text.toString() == "0" ) {
+                    spCount.addString("${time}", RequestLottoResult.currentResult.count.toString() + "회")
+                    longToast("회차를 0으로 설정하여 이번주 회차로 저장됩니다.")
+                }
+                else {
+                    Toast.makeText(applicationContext, "숫자가 정상적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                    spCount.addString("${time}", input_bought_count.text.toString() + "회")
+                }
+
             }
         }
 
