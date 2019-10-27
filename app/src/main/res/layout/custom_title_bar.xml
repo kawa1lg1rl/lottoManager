@@ -12,7 +12,6 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/ic_menu_24px"/>
 
-
     <TextView
         android:text=""
         android:id="@+id/title"
@@ -21,12 +20,5 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6.5"/>
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/btnHistory"-->
-<!--        android:layout_alignParentRight="true"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="56dp"-->
-<!--        android:layout_weight="1.5"/>-->
 
 </LinearLayout>

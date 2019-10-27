@@ -8,10 +8,9 @@
         android:id="@+id/backButton"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:layout_marginRight="20dp"
         android:background="@drawable/ic_arrow_back_24px"/>
-
 
     <TextView
         android:text=""
@@ -20,13 +19,6 @@
         android:textColor="#000"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="7"/>
-
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/btnHistory"-->
-    <!--        android:layout_alignParentRight="true"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:layout_weight="1.5"/>-->
+        android:layout_weight="6.5"/>
 
 </LinearLayout>
