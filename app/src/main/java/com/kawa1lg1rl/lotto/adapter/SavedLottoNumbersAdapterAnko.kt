@@ -5,16 +5,15 @@ import android.view.ViewGroup
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.item.LottoNumbersItem
 import com.kawa1lg1rl.lotto.R
+import com.kawa1lg1rl.lotto.data.BoughtLottoNumbers
 import com.kawa1lg1rl.lotto.data.MySharedPreferences
+import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import org.jetbrains.anko.*
 
 
@@ -40,7 +39,7 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
     override fun onBindViewHolder(holder: NumbersHolder, position: Int) {
         var item = itemList[position]
 
-        holder.countText.setText(countItem[position])
+        holder.countText.setText(countItem[position] + "당첨 확인하려면 터치")
 
         holder.numbers.mapIndexed { index, imageView ->
             imageView.loadImage(
@@ -54,6 +53,12 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
             imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
         }
 
+        holder.totalView.setOnClickListener {
+            var (myWinnings, winnings, rank) = RequestLottoResult.instance.isWinning(BoughtLottoNumbers(item.numbers!!, countItem[position].replace("회", "").toInt()))
+
+            Toast.makeText(context, myWinnings.joinToString(separator = ",") + " 당첨번호는 " + winnings.joinToString(separator = "/") + " 내 순위는 " + rank, Toast.LENGTH_SHORT).show()
+        }
+
         holder.removeButton.setOnClickListener {
             MySharedPreferences(R.string.prefsBoughtNumbers).removeStrings(item.name!!)
             MySharedPreferences(R.string.prefsBoughtNumbersCount).removeStrings(item.name!!)
@@ -61,6 +66,7 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
             itemList -= item
             this.notifyDataSetChanged()
         }
+
     }
 
 
@@ -82,18 +88,22 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
 
         var removeButton : Button = itemView.find(bt_remove)
         var countText : TextView = itemView.find(tv_count)
+        var totalView : LinearLayout = itemView.find(linear)
     }
 
     var tv_count = View.generateViewId()
     var iv_arrays: Array<Int> = Array(6, { View.generateViewId() } )
     var linear_images = View.generateViewId()
     var bt_remove = View.generateViewId()
+    var linear = View.generateViewId()
 
+    // Anko를 이용한 Recycler View
     inner class BoughtNumbersRecyclerView : AnkoComponent<ViewGroup> {
 
         override fun createView(ui: AnkoContext<ViewGroup>): View {
             val itemView = with(ui) {
                 verticalLayout {
+                    id = linear
                     lparams(width = matchParent, height = dip(100))
 
                     textView {
@@ -134,4 +144,5 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
 
 
     }
+
 }
