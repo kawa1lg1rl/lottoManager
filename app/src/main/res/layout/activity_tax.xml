@@ -44,16 +44,23 @@
             android:id="@+id/inputed_prize"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:autoSizeTextType="uniform"
+            />
+        
+        <TextView
+            android:id="@+id/calculated_tax"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.8"
             android:autoSizeTextType="uniform"
             />
-
 
         <TextView
             android:id="@+id/calculated_prize"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="0.8"
             android:autoSizeTextType="uniform"
             />
 
