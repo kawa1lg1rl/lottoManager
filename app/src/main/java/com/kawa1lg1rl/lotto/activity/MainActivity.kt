@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
                 current_lotto_count.setText( RequestLottoResult.currentResult.count.toString() + "회")
                 current_lotto_date.setText( RequestLottoResult.currentResult.date )
-                current_lotto_prize.setText( RequestLottoResult.currentResult.firstPrize.toString().format("") )
+                current_lotto_prize.setText( String.format("%,d원", RequestLottoResult.currentResult.firstPrize ))
 
                 var count = 0
                 RequestLottoResult.currentResult.numbers.map {
