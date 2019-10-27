@@ -29,10 +29,7 @@
             layout="@layout/lottonumbers_view2"
             android:layout_weight="8"
             />
-
-
     </LinearLayout>
-
 
     <Space
         android:layout_width="wrap_content"
@@ -44,21 +41,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7.5"
-        android:orientation="horizontal"
-        >
-
+        android:orientation="horizontal">
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
-
-
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:layout_weight="4"
-            >
+            android:layout_weight="4">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lottonumbers_grid_layout"
                 android:layout_width="match_parent"
@@ -69,8 +61,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"/>
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -78,8 +68,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.3"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -91,7 +81,6 @@
             android:gravity="center"
             android:text="저장하기"
             android:autoSizeTextType="uniform"/>
-
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
