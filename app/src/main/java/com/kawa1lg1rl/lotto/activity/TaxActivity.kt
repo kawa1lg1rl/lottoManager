@@ -35,7 +35,8 @@ class TaxActivity : AppCompatActivity() {
         setContentView(R.layout.activity_tax)
 
         inputed_prize.text = "0원"
-        calculated_prize.text = "세금 : 0원"
+        calculated_prize.text = "당첨금 : 0원"
+        calculated_tax.text = "세금 : 0원"
 
         tax_explanation_button.setOnClickListener {
             tax_explanation_button.visibility = View.GONE
@@ -46,10 +47,13 @@ class TaxActivity : AppCompatActivity() {
             override fun afterTextChanged(text: Editable?) {
                 if(text.toString().length > 0) {
                     inputed_prize.text = String.format("%,d", text.toString().toLong()) + "원"
-                    calculated_prize.text = "세금 : " + String.format("%,d", calculateTax(text.toString().toLong()))
+                    calculated_tax.text = "세금 : " + String.format("%,d", calculateTax(text.toString().toLong())) + "원"
+                    calculated_prize.text = "당첨금 : " + String.format("%,d", text.toString().toLong() - calculateTax(text.toString().toLong())) + "원"
+
                 } else {
                     inputed_prize.text = "0원"
-                    calculated_prize.text = "세금 : 0원"
+                    calculated_tax.text = "세금 : 0원"
+                    calculated_prize.text = "당첨금 : 0원"
                 }
             }
 
@@ -64,7 +68,7 @@ class TaxActivity : AppCompatActivity() {
 
         var firstPrize = intent.getLongExtra("firstPrize", 0)
 
-        calculated_first_prize.text = "이번 회차 1등 당첨금 : $firstPrize\n" + "1등 당첨금 세금계산 : ${calculateTax(firstPrize)}"
+        calculated_first_prize.text = "이번 회차 1등 당첨금 : ${String.format("%,d", firstPrize)}\n" + "1등 당첨금 세금계산 : ${String.format("%,d", calculateTax(firstPrize))}"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
