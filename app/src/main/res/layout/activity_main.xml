@@ -192,6 +192,17 @@
                 />
 
             <TextView
+                android:id="@+id/button_qrcode_scan_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="QR코드로 당첨확인"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
+
+            <TextView
                 android:id="@+id/button_view_bought_number_in_menu"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

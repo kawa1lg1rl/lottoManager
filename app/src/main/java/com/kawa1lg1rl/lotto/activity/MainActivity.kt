@@ -83,8 +83,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setAllIntent() {
-
-
         button_create_numbers_view_in_menu.setOnClickListener{
             startActivity<CreateNumbersActivity>()
         }
@@ -105,6 +103,10 @@ class MainActivity : AppCompatActivity() {
             startActivity<BoughtNumbersActivity>()
         }
 
+        button_qrcode_scan_in_menu.setOnClickListener {
+            startActivity<QrScanActivity>()
+        }
+
         button_view_bought_number_in_menu.setOnClickListener{
             startActivity<ViewBoughtNumbersActivity>()
         }
@@ -116,7 +118,6 @@ class MainActivity : AppCompatActivity() {
         button_saved_numbers.setOnClickListener {
             startActivity<ViewLottonumbersActivity>()
         }
-
     }
 
     fun setCurrentLottoView() {
