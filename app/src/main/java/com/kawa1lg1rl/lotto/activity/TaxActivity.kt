@@ -62,9 +62,7 @@ class TaxActivity : AppCompatActivity() {
             }
         })
 
-        var firstPrize = intent.getStringExtra("firstPrize").split(":")[1].
-            replace(",", "").replace(" ", "").
-            replace("원","").toLong()
+        var firstPrize = intent.getLongExtra("firstPrize", 0)
 
         calculated_first_prize.text = "이번 회차 1등 당첨금 : $firstPrize\n" + "1등 당첨금 세금계산 : ${calculateTax(firstPrize)}"
     }

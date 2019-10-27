@@ -31,7 +31,6 @@ class ViewBoughtNumbersActivity : AppCompatActivity() {
         var totalCount = spCount.getAllSet()
 
         for (entry in sp.getAllSet().entries) {
-
             var currentCouont = totalCount.get(entry.key)
 
             var item = LottoNumbersItem()
@@ -43,12 +42,10 @@ class ViewBoughtNumbersActivity : AppCompatActivity() {
             items += item
         }
 
-
         val lottoAdapter = SavedLottoNumbersAdapterAnko(this, items, countItems)
         findViewById<RecyclerView>(R.id.saved_numbers_list).adapter = lottoAdapter
         findViewById<RecyclerView>(R.id.saved_numbers_list).layoutManager = LinearLayoutManager(this)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var actionBar : ActionBar = supportActionBar!!
