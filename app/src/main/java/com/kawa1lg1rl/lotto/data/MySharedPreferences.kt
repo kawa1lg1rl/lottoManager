@@ -2,6 +2,7 @@ package com.kawa1lg1rl.lotto.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 
@@ -35,6 +36,10 @@ class MySharedPreferences (prefNameId : Int) {
 
     fun clearStrings() {
         prefs.edit().clear().apply()
+    }
+
+    fun getString(name:String) : String {
+        return prefs.getString(name, "")
     }
 
     fun getStrings(name: String) : Array<String> {
