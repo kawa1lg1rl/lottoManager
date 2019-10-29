@@ -28,40 +28,58 @@ class RequestLottoResult {
     }
 
     fun requestCurrentLottoResult() : LottoResult {
-        var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
 
-        var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl).
-            addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
+        return object : AsyncTask<Unit, Unit, LottoResult>() {
+            override fun doInBackground(vararg p0: Unit?): LottoResult {
+                var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
 
-        var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
+                var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl).
+                    addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
 
-        contents = service.getCurrentLottoResult().execute().body().toString()
-        splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+                var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
+
+                contents = service.getCurrentLottoResult().execute().body().toString()
+                splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
 
 
 //        lotto_debug = checkLottoDebug()
 //        if(lotto_debug) return
-        currentResult = LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
-        return currentResult
+                currentResult = LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
+                return currentResult
+            }
+        }.execute().get()
     }
 
     fun requestResult(count: Int) : LottoResult {
-        var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
+        return object : AsyncTask<Unit, Unit, LottoResult>() {
+            override fun doInBackground(vararg p0: Unit?): LottoResult {
+                var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
 
-        var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build())
-            .build()
+                var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .client(httpClient.build())
+                    .build()
 
-        var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
+                var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
 
-        var body = service.getLottoResultUsingCount(count.toString()).execute().body()
-        contents = body.toString()
-        splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+                var body = service.getLottoResultUsingCount(count.toString()).execute().body()
+                contents = body.toString()
+                splitedContents =
+                    contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(
+                        ".\">"
+                    )[0]
 
-//        lotto_debug = checkLottoDebug()
-//        if(lotto_debug == false) return
+                //        lotto_debug = checkLottoDebug()
+                //        if(lotto_debug == false) return
 
-        return LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
+                return LottoResult(
+                    parseLottoNumbers(),
+                    parseCount(),
+                    parseDate(),
+                    parseFirstPrize()
+                )
+            }
+        }.execute().get()
     }
 
     fun parseLottoNumbers() : Array<Int> {

@@ -125,32 +125,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setCurrentLottoView() {
-
-        requestLottoResult = RequestLottoResult.instance
-        var lottoResultAsyncTask = object : AsyncTask<Unit, Unit, Unit>() {
-            override fun doInBackground(vararg p0: Unit?) {
-                requestLottoResult!!.requestCurrentLottoResult()
-            }
-
-            override fun onPostExecute(result: Unit?) {
-                super.onPostExecute(result)
-
-                current_lotto_count.setText( RequestLottoResult.currentResult.count.toString() + "회")
-                current_lotto_date.setText( RequestLottoResult.currentResult.date )
-                current_lotto_prize.setText( String.format("%,d원", RequestLottoResult.currentResult.firstPrize ))
-
-                var count = 0
-                RequestLottoResult.currentResult.numbers.map {
-                    lottonumbersArray[count].loadImage(resources.getIdentifier("number_$it", "drawable", packageName))
-                    count ++
-                }
-
-                lottonumbers_number_plus.loadImage(resources.getIdentifier("plus", "drawable", packageName))
-            }
+    fun setCurrentLottoView(lottoResult : LottoResult? = null) {
+        var _lottoResult : LottoResult
+        if(lottoResult != null) {
+            _lottoResult = lottoResult
+        } else {
+            requestLottoResult = RequestLottoResult.instance
+            _lottoResult = requestLottoResult!!.requestCurrentLottoResult()
         }
 
-        lottoResultAsyncTask.execute()
+        current_lotto_count.setText( _lottoResult.count.toString() + "회")
+        current_lotto_date.setText( _lottoResult.date )
+        current_lotto_prize.setText( String.format("%,d원", _lottoResult.firstPrize ))
+
+        var count = 0
+        _lottoResult.numbers.map {
+            lottonumbersArray[count].loadImage(resources.getIdentifier("number_$it", "drawable", packageName))
+            count ++
+        }
+
+        lottonumbers_number_plus.loadImage(resources.getIdentifier("plus", "drawable", packageName))
     }
 
 }

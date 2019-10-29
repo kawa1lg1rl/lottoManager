@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.jetbrains.anko.*
 
-
 class StatNumbersAdapter(val context: Context, var itemList:Array<String>) :
     RecyclerView.Adapter<StatNumbersAdapter.StatNumbersHolder>() {
 
@@ -35,7 +34,6 @@ class StatNumbersAdapter(val context: Context, var itemList:Array<String>) :
         holder.stat.setText(item + "회")
 
     }
-
 
     inner class StatNumbersHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val count : TextView = itemView.findViewById(countView)
