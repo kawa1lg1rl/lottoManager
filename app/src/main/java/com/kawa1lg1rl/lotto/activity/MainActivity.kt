@@ -16,7 +16,9 @@ import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.TextView
+import com.kawa1lg1rl.lotto.App
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         lottonumbersArray += lottonumbers_number_5
         lottonumbersArray += lottonumbers_number_6
         lottonumbersArray += lottonumbers_number_7
-
 
         setCurrentLottoView()
     }
@@ -117,6 +118,10 @@ class MainActivity : AppCompatActivity() {
 
         button_saved_numbers.setOnClickListener {
             startActivity<ViewLottonumbersActivity>()
+        }
+
+        button_stat_in_menu.setOnClickListener {
+            startActivity<StatActivity>()
         }
     }
 

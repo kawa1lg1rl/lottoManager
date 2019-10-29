@@ -213,6 +213,16 @@
                 android:background="#efefef"
                 />
 
+            <TextView
+                android:id="@+id/button_stat_in_menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="당첨번호 통계"
+                android:textColor="#000"
+                android:background="#efefef"
+                />
         </LinearLayout>
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
