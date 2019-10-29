@@ -17,6 +17,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.kawa1lg1rl.lotto.App
+import com.kawa1lg1rl.lotto.data.LottoResult
+import com.kawa1lg1rl.lotto.utils.LottoResultUtils
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         lottonumbersArray += lottonumbers_number_6
         lottonumbersArray += lottonumbers_number_7
 
-        setCurrentLottoView()
+        setCurrentLottoView(LottoResultUtils.instance.getCurrentLottoResult())
     }
 
 
