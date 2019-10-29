@@ -1,8 +1,7 @@
 package com.kawa1lg1rl.lotto.network
 
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface LottoRetrofitService {
 
@@ -11,5 +10,9 @@ interface LottoRetrofitService {
 
     @GET("/gameResult.do?method=byWin")
     fun getLottoResultUsingCount(@Query("drwNo") number:String): Call<String>
+
+    @FormUrlEncoded
+    @POST("/gameResult.do?method=statByNumber")
+    fun getNumbersStat(@FieldMap params:HashMap<String, String>) : Call<String>
 
 }

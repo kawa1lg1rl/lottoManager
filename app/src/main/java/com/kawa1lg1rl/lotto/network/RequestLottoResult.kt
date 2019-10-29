@@ -18,17 +18,70 @@ class RequestLottoResult {
     var numbers = arrayOfNulls<Int>(7)
 
     var baseUrl:String = "https://dhlottery.co.kr"
-    var defaultUrl:String = "https://dhlottery.co.kr/gameResult.do?method=byWin&wiselog=H_C_1_1"
 
     var contents:String = ""
-    var lotto_debug: Boolean = false
     lateinit var splitedContents : String
 
-    // 싱글톤을 위한
     companion object {
         var instance = RequestLottoResult()
         lateinit var currentResult: LottoResult
+    }
 
+    fun requestCurrentLottoResult() : LottoResult {
+        var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
+
+        var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl).
+            addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
+
+        var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
+
+        contents = service.getCurrentLottoResult().execute().body().toString()
+        splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+
+
+//        lotto_debug = checkLottoDebug()
+//        if(lotto_debug) return
+        currentResult = LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
+        return currentResult
+    }
+
+    fun requestResult(count: Int) : LottoResult {
+        var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
+
+        var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl)
+            .addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build())
+            .build()
+
+        var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
+
+        var body = service.getLottoResultUsingCount(count.toString()).execute().body()
+        contents = body.toString()
+        splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+
+//        lotto_debug = checkLottoDebug()
+//        if(lotto_debug == false) return
+
+        return LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
+    }
+
+    fun parseLottoNumbers() : Array<Int> {
+        return splitedContents.split(".")[0].split("당첨번호 ")[1].
+            replace("+", ",").split(",").map {
+            it.toInt()
+        }.toTypedArray()
+    }
+
+    fun parseCount() : Int {
+        return splitedContents.split("회 당첨번호")[0].toInt()
+    }
+
+    fun parseDate() : String {
+        return contents.split("당첨결과</h4>")[1].split("</p>")[0].split("desc\">")[1]
+    }
+
+    fun parseFirstPrize() : Long {
+        //tbl_data tbl_data_col
+        return splitedContents.split("1인당 당첨금액 ")[1].replace("," ,"").replace("원", "").toLong()
     }
 
     data class Winning(var myWinningNumbers: Array<Int>, var winningNumbers: Array<Int>, var rank: Int)
@@ -77,78 +130,39 @@ class RequestLottoResult {
         return lottoResultAsyncTask.execute().get()
     }
 
+    fun getNumbersStat(start : Int = 0, end : Int = 0, bonus: Int = 1) : Array<String> {
+        var temp = if(start == 0) 1 else start
+        val startCount = if( temp > currentResult.count ) 1 else start
+        temp = if(end == 0) currentResult.count else end
+        val endCount : Int = if( temp > currentResult.count ) currentResult.count else temp
 
-    fun requestCurrentLottoResult() : LottoResult {
-        var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
+        val pattern = "drwtNoPop\\[[^\n]+'".toRegex()
 
-        var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl).
-            addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
+        var params = HashMap<String, String>()
 
-        var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
+        params.put("sortOrder", "DESC")
+        params.put("srchType", "list")
+        params.put("sltBonus", bonus.toString()) // 0이면 보너스 포함 안함
+        params.put("sttDrwNo", startCount.toString())
+        params.put("edDrwNo", endCount.toString())
 
-        contents = service.getCurrentLottoResult().execute().body().toString()
-        splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+        return object : AsyncTask<Unit, Unit, Array<String>> () {
+            override fun doInBackground(vararg p0: Unit?): Array<String> {
+                var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
 
+                var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl).
+                    addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
 
-//        lotto_debug = checkLottoDebug()
-//        if(lotto_debug) return
-        currentResult = LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
-        return currentResult
-    }
+                var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
 
+                contents = service.getNumbersStat(params).execute().body().toString()
 
-    fun requestResult(count: Int) : LottoResult {
-        var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
+                var allStatsSeq = pattern.findAll(contents)
 
-        var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build())
-            .build()
-
-        var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
-
-        var body = service.getLottoResultUsingCount(count.toString()).execute().body()
-        contents = body.toString()
-        splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
-
-//        lotto_debug = checkLottoDebug()
-//        if(lotto_debug == false) return
-
-        return LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
-    }
-
-//    fun checkLottoDebug():Boolean {
-//        if(contents.indexOf("win_result") > 0 ) {
-//            return false
-//        }
-//        else {
-//            return true
-//        }
-//    }
-
-    // 100회 당첨번호 1,7,11,23,37,42+6. 1등 총 4명, 1인당 당첨금액 3,315,315,525원
-    fun parseLottoNumbers() : Array<Int> {
-        return splitedContents.split(".")[0].split("당첨번호 ")[1].
-            replace("+", ",").split(",").map {
-            it.toInt()
-        }.toTypedArray()
-    }
-
-    fun parseCount() : Int {
-        return splitedContents.split("회 당첨번호")[0].toInt()
-    }
-
-    fun parseDate() : String {
-        return contents.split("당첨결과</h4>")[1].split("</p>")[0].split("desc\">")[1]
-    }
-
-    fun parseFirstPrize() : Long {
-        //tbl_data tbl_data_col
-        return splitedContents.split("1인당 당첨금액 ")[1].replace("," ,"").replace("원", "").toLong()
-    }
-
-    fun testNumbers() {
-        numbers.map {
-            Log.d("kawa1lg1rl_tag2", "!!!! number test !!!! : " + it)
-        }
+                return allStatsSeq.map {
+                    it.value.split("'")[1]
+                }.toList().toTypedArray()
+            }
+        }.execute().get()
     }
 }
