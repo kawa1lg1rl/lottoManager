@@ -14,11 +14,12 @@ import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.data.BoughtLottoNumbers
 import com.kawa1lg1rl.lotto.data.MySharedPreferences
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
+import com.kawa1lg1rl.lotto.utils.LottoResultUtils
 import org.jetbrains.anko.*
 
 
-class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<LottoNumbersItem>,
-                                   var countItem: List<String>) :
+class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<BoughtLottoNumbers>,
+                                   var keys: List<String>) :
     RecyclerView.Adapter<SavedLottoNumbersAdapterAnko.NumbersHolder>() {
 
     // 확장함수
@@ -39,12 +40,12 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
     override fun onBindViewHolder(holder: NumbersHolder, position: Int) {
         var item = itemList[position]
 
-        holder.countText.setText(countItem[position] + "당첨 확인하려면 터치")
+        holder.countText.setText("${item.count}회 당첨 확인하려면 터치")
 
         holder.numbers.mapIndexed { index, imageView ->
             imageView.loadImage(
                 context.resources.getIdentifier(
-                    "number_${item.numbers!![index]}",
+                    "number_${item.lottoNumbers!![index]}",
                     "drawable",
                     context.packageName
                 )
@@ -54,15 +55,13 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
         }
 
         holder.totalView.setOnClickListener {
-            var (myWinnings, winnings, rank) = RequestLottoResult.instance.isWinning(BoughtLottoNumbers(item.numbers!!, countItem[position].replace("회", "").toInt()))
+            var (myWinnings, winnings, rank) = RequestLottoResult.instance.isWinning(item)
 
             Toast.makeText(context, myWinnings.joinToString(separator = ",") + " 당첨번호는 " + winnings.joinToString(separator = "/") + " 내 순위는 " + rank, Toast.LENGTH_SHORT).show()
         }
 
         holder.removeButton.setOnClickListener {
-            MySharedPreferences(R.string.prefsBoughtNumbers).removeStrings(item.name!!)
-            MySharedPreferences(R.string.prefsBoughtNumbersCount).removeStrings(item.name!!)
-
+            LottoResultUtils.instance.removeBoughtNumbers(keys[position])
             itemList -= item
             this.notifyDataSetChanged()
         }
@@ -75,7 +74,6 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Lotto
             var tempArray: Array<ImageView> = emptyArray()
             var i = 0
             while(i < it.childCount) {
-                Log.d("kawa1lg1rl_tag", "loop : $i, ${it.getChildAt(i).toString()}")
                 if( it.getChildAt(i) !is ImageView ) {
                     i += 1
                     continue

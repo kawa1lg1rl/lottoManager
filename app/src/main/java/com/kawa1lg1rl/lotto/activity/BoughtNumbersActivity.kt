@@ -16,8 +16,10 @@ import com.bumptech.glide.Glide
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.adapter.InputLottoNumbersAdapter
+import com.kawa1lg1rl.lotto.data.BoughtLottoNumbers
 import com.kawa1lg1rl.lotto.data.MySharedPreferences
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
+import com.kawa1lg1rl.lotto.utils.LottoResultUtils
 import kotlinx.android.synthetic.main.activity_bought_numbers.*
 import kotlinx.android.synthetic.main.lottonumbers_view2.*
 import org.jetbrains.anko.longToast
@@ -40,9 +42,6 @@ class BoughtNumbersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bought_numbers)
         init()
 
-        var sp = MySharedPreferences(R.string.prefsBoughtNumbers)
-        var spCount = MySharedPreferences(R.string.prefsBoughtNumbersCount)
-
         custom_save_button2.setOnClickListener {
             var time = System.currentTimeMillis()
 
@@ -51,20 +50,19 @@ class BoughtNumbersActivity : AppCompatActivity() {
             } else if ( input_bought_count.text.toString().length <= 0 ) {
                 Toast.makeText(applicationContext, "회차를 입력하지 않아 현재 회차로 저장됩니다.", Toast.LENGTH_SHORT).show()
 
-                sp.addStrings("${time}", numbers.toTypedArray())
-                spCount.addString("${time}", RequestLottoResult.currentResult.count.toString() + "회")
+                var boughtNumbers = BoughtLottoNumbers(numbers.toTypedArray(),RequestLottoResult.currentResult.count )
+                LottoResultUtils.instance.saveBoughtNumbers(boughtNumbers)
             } else {
-
-
-                sp.addStrings("${time}", numbers.toTypedArray())
+                var boughtNumbers = BoughtLottoNumbers(numbers.toTypedArray(),RequestLottoResult.currentResult.count )
 
                 if( input_bought_count.text.toString() == "0" ) {
-                    spCount.addString("${time}", RequestLottoResult.currentResult.count.toString() + "회")
+                    LottoResultUtils.instance.saveBoughtNumbers(boughtNumbers)
                     longToast("회차를 0으로 설정하여 이번주 회차로 저장됩니다.")
                 }
                 else {
+                    boughtNumbers.count = input_bought_count.text.toString().toInt()
+                    LottoResultUtils.instance.saveBoughtNumbers(boughtNumbers)
                     Toast.makeText(applicationContext, "숫자가 정상적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
-                    spCount.addString("${time}", input_bought_count.text.toString() + "회")
                 }
 
             }

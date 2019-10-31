@@ -14,8 +14,10 @@ import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.adapter.SavedLottoNumbersAdapter
 import com.kawa1lg1rl.lotto.adapter.SavedLottoNumbersAdapterAnko
+import com.kawa1lg1rl.lotto.data.BoughtLottoNumbers
 import com.kawa1lg1rl.lotto.data.MySharedPreferences
 import com.kawa1lg1rl.lotto.item.LottoNumbersItem
+import com.kawa1lg1rl.lotto.utils.LottoResultUtils
 
 class ViewBoughtNumbersActivity : AppCompatActivity() {
 
@@ -23,26 +25,24 @@ class ViewBoughtNumbersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_lottonumbers)
 
-        var items : List<LottoNumbersItem> = listOf()
-        var countItems : List<String> = listOf()
+        var items : List<BoughtLottoNumbers> = listOf()
+        var keys : List<String> = listOf()
 
-        var sp = MySharedPreferences(R.string.prefsBoughtNumbers)
-        var spCount = MySharedPreferences(R.string.prefsBoughtNumbersCount)
-        var totalCount = spCount.getAllSet()
+        val boughtNumbers = LottoResultUtils.instance.getBoughtNumbers()
 
-        for (entry in sp.getAllSet().entries) {
-            var currentCouont = totalCount.get(entry.key)
+        for (boughtNumber in boughtNumbers) {
 
-            var item = LottoNumbersItem()
-            item.numbers = (entry.value as MutableSet<String>).map { it.toInt() }.toTypedArray()
-            item.numbers!!.sort()
-            item.name =  entry.key
+            var currentCouont = boughtNumber.value.count
 
-            countItems += currentCouont.toString()
+            var item = BoughtLottoNumbers(arrayOf(), currentCouont)
+            item.lottoNumbers = boughtNumber.value.lottoNumbers
+            item.lottoNumbers!!.sort()
+
+            keys += boughtNumber.key
             items += item
         }
 
-        val lottoAdapter = SavedLottoNumbersAdapterAnko(this, items, countItems)
+        val lottoAdapter = SavedLottoNumbersAdapterAnko(this, items, keys)
         findViewById<RecyclerView>(R.id.saved_numbers_list).adapter = lottoAdapter
         findViewById<RecyclerView>(R.id.saved_numbers_list).layoutManager = LinearLayoutManager(this)
     }
