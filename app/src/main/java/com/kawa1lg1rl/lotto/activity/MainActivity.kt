@@ -1,5 +1,7 @@
 package com.kawa1lg1rl.lotto.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +16,11 @@ import com.bumptech.glide.Glide
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.data.LottoResult
 import com.kawa1lg1rl.lotto.utils.LottoResultUtils
@@ -38,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         setAllIntent()
 
         updateButton.setOnClickListener {
+            LottoResultUtils.instance.changeCurrentLottoResult()
             setCurrentLottoView()
         }
 
@@ -129,11 +135,11 @@ class MainActivity : AppCompatActivity() {
 
     fun setCurrentLottoView(lottoResult : LottoResult? = null) {
         var _lottoResult : LottoResult
+
         if(lottoResult != null) {
             _lottoResult = lottoResult
         } else {
-            requestLottoResult = RequestLottoResult.instance
-            _lottoResult = requestLottoResult!!.requestCurrentLottoResult()
+            _lottoResult = LottoResultUtils.instance.getCurrentLottoResult()
         }
 
         current_lotto_count.setText( _lottoResult.count.toString() + "회")

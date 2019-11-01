@@ -45,7 +45,7 @@ class RequestLottoResult {
             override fun doInBackground(vararg p0: Unit?): LottoResult {
 
                 contents = service.getCurrentLottoResult().execute().body().toString()
-                if(contents.contains("점검") || true) {
+                if(contents.contains("점검")) {
                     contents = naverService.getCurrentLottoResultN().execute().body().toString()
 
                     var count = contents.split("</em>차 당첨번호")[0].split("<em>").last().replace("회", "").toInt()
