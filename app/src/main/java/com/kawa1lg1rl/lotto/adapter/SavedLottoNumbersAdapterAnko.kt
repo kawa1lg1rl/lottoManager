@@ -19,7 +19,7 @@ import org.jetbrains.anko.*
 
 
 class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<BoughtLottoNumbers>,
-                                   var keys: List<String>) :
+                                   var keys: List<Int>) :
     RecyclerView.Adapter<SavedLottoNumbersAdapterAnko.NumbersHolder>() {
 
     // 확장함수

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.kawa1lg1rl.lotto.data.MySharedPreferences
+import io.realm.Realm
 
 class App : Application() {
     init {
@@ -37,6 +38,9 @@ class App : Application() {
     }
 
     override fun onCreate() {
+        // realm 사용하려면 꼭 해줘야함.
+        Realm.init(this)
+
         lottoNumbersPrefs = MySharedPreferences(R.string.prefsGeneratedNumbers)
 
         if( Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ) {
@@ -44,5 +48,6 @@ class App : Application() {
         }
 
         super.onCreate()
+
     }
 }

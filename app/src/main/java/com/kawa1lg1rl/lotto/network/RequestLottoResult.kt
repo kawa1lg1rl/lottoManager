@@ -13,14 +13,26 @@ import kotlinx.coroutines.launch
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import kotlin.Exception
 
 class RequestLottoResult {
     var numbers = arrayOfNulls<Int>(7)
 
     var baseUrl:String = "https://dhlottery.co.kr"
+    var secondUrl:String = "https://search.naver.com"
 
     var contents:String = ""
     lateinit var splitedContents : String
+
+    var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
+
+    var service: LottoRetrofitService = Retrofit.Builder().baseUrl(baseUrl).
+        addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
+        .create(LottoRetrofitService::class.java)
+
+    var naverService = Retrofit.Builder().baseUrl(secondUrl).
+        addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
+        .create(LottoRetrofitService::class.java)
 
     companion object {
         var instance = RequestLottoResult()
@@ -31,53 +43,75 @@ class RequestLottoResult {
 
         return object : AsyncTask<Unit, Unit, LottoResult>() {
             override fun doInBackground(vararg p0: Unit?): LottoResult {
-                var httpClient:OkHttpClient.Builder = OkHttpClient.Builder()
-
-                var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl).
-                    addConverterFactory(ScalarsConverterFactory.create()).client(httpClient.build()).build()
-
-                var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
 
                 contents = service.getCurrentLottoResult().execute().body().toString()
-                splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+                if(contents.contains("점검") || true) {
+                    contents = naverService.getCurrentLottoResultN().execute().body().toString()
 
+                    var count = contents.split("</em>차 당첨번호")[0].split("<em>").last().replace("회", "").toInt()
+                    var date = contents.split("</em>차 당첨번호")[1].split("</span>")[0].split("<span>")[1]
+                    var numbers : Array<Int> = arrayOf()
 
-//        lotto_debug = checkLottoDebug()
-//        if(lotto_debug) return
-                currentResult = LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
+                    contents.split("num_box")[1].split("당첨조회")[0].split("class=\"num").mapIndexed { index, s ->
+                        if(index != 0) {
+                            numbers += s.split("</span>")[0].split(">")[1].toInt()
+                        }
+                    }
+
+                    currentResult = LottoResult(numbers, count, date, 0)
+                } else {
+                    splitedContents = contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(".\">")[0]
+
+                    currentResult = LottoResult(parseLottoNumbers(), parseCount(), parseDate(), parseFirstPrize())
+                }
+
                 return currentResult
             }
         }.execute().get()
+
     }
 
     fun requestResult(count: Int) : LottoResult {
         return object : AsyncTask<Unit, Unit, LottoResult>() {
             override fun doInBackground(vararg p0: Unit?): LottoResult {
-                var httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
-
-                var retro: Retrofit = Retrofit.Builder().baseUrl(baseUrl)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .client(httpClient.build())
-                    .build()
-
-                var service: LottoRetrofitService = retro.create(LottoRetrofitService::class.java)
-
                 var body = service.getLottoResultUsingCount(count.toString()).execute().body()
+
                 contents = body.toString()
-                splitedContents =
-                    contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(
-                        ".\">"
-                    )[0]
 
-                //        lotto_debug = checkLottoDebug()
-                //        if(lotto_debug == false) return
+                var result : LottoResult
+                if(contents.contains("점검") || true) {
+                    contents = naverService.getLottoResultUsingCountN(count.toString() + "회로또").execute().body().toString()
 
-                return LottoResult(
-                    parseLottoNumbers(),
-                    parseCount(),
-                    parseDate(),
-                    parseFirstPrize()
-                )
+                    var count = contents.split("</em>차 당첨번호")[0].split("<em>").last().replace("회", "").toInt()
+                    var date = contents.split("</em>차 당첨번호")[1].split("</span>")[0].split("<span>")[1]
+                    var numbers : Array<Int> = arrayOf()
+
+                    contents.split("num_box")[1].split("당첨조회")[0].split("class=\"num").mapIndexed { index, s ->
+                        if(index != 0) {
+                            numbers += s.split("</span>")[0].split(">")[1].toInt()
+                        }
+                    }
+
+                    result = LottoResult(numbers, count, date, 0)
+                } else {
+
+                    splitedContents =
+                        contents.split("<meta id=\"desc\" name=\"description\" content=\"동행복권 ")[1].split(
+                            ".\">"
+                        )[0]
+
+                    //        lotto_debug = checkLottoDebug()
+                    //        if(lotto_debug == false) return
+
+                    result = LottoResult(
+                        parseLottoNumbers(),
+                        parseCount(),
+                        parseDate(),
+                        parseFirstPrize()
+                    )
+                }
+
+                return result
             }
         }.execute().get()
     }
@@ -105,47 +139,33 @@ class RequestLottoResult {
     data class Winning(var myWinningNumbers: Array<Int>, var winningNumbers: Array<Int>, var rank: Int)
 
     fun isWinning(lottoNumbers : BoughtLottoNumbers) : Winning {
+
         var count = lottoNumbers.count
-        lateinit var tempNumbers : LottoResult
-        GlobalScope.launch(coroutineContext) {
+        var tempNumbers : LottoResult = requestResult(count)
 
-        }
+        var slicedNumbers = tempNumbers.numbers.sliceArray(0..5)
 
-        var lottoResultAsyncTask = object : AsyncTask<Unit, Unit, Winning>() {
-            override fun doInBackground(vararg p0: Unit?): Winning {
-                tempNumbers = requestResult(count)
+        var winningNumbers : Array<Int> = arrayOf()
 
-                var slicedNumbers = tempNumbers.numbers.sliceArray(0..5)
+        slicedNumbers.sort()
+        lottoNumbers.lottoNumbers.sort()
 
-                var winningNumbers : Array<Int> = arrayOf()
-
-                slicedNumbers.sort()
-                lottoNumbers.lottoNumbers.sort()
-
-                lottoNumbers.lottoNumbers.mapIndexed { index, i ->
-                    if( slicedNumbers.contains(i)) {
-                        winningNumbers = winningNumbers.plus( slicedNumbers[index] )
-                    }
-                }
-
-                var winning: Int
-                winning = when(winningNumbers.size) {
-                    6 -> 1
-                    5 -> if( lottoNumbers.lottoNumbers.contains(tempNumbers.numbers[6]) ) 2 else 3
-                    4 -> 4
-                    3 -> 5
-                    else -> 0
-                }
-
-                return Winning(winningNumbers, tempNumbers.numbers, winning)
-            }
-
-            override fun onPostExecute(result: Winning?) {
-                super.onPostExecute(result)
+        lottoNumbers.lottoNumbers.mapIndexed { index, i ->
+            if( slicedNumbers.contains(i)) {
+                winningNumbers = winningNumbers.plus( slicedNumbers[index] )
             }
         }
 
-        return lottoResultAsyncTask.execute().get()
+        var winning: Int
+        winning = when(winningNumbers.size) {
+            6 -> 1
+            5 -> if( lottoNumbers.lottoNumbers.contains(tempNumbers.numbers[6]) ) 2 else 3
+            4 -> 4
+            3 -> 5
+            else -> 0
+        }
+
+        return Winning(winningNumbers, tempNumbers.numbers, winning)
     }
 
     fun getNumbersStat(start : Int = 0, end : Int = 0, bonus: Int = 1) : Array<String> {

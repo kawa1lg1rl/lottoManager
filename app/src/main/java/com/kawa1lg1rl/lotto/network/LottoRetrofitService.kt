@@ -15,4 +15,10 @@ interface LottoRetrofitService {
     @POST("/gameResult.do?method=statByNumber")
     fun getNumbersStat(@FieldMap params:HashMap<String, String>) : Call<String>
 
+    @GET("/search.naver?sm=tab_drt&where=nexearch&query=로또")
+    fun getCurrentLottoResultN(): Call<String>
+
+    @GET("/search.naver?sm=tab_drt&where=nexearch")
+    fun getLottoResultUsingCountN(@Query("query") number:String): Call<String>
+
 }

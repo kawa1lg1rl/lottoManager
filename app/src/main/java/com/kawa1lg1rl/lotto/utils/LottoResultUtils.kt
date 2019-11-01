@@ -20,6 +20,7 @@ import kotlin.collections.HashMap
 
 class LottoResultUtils {
     val gson = Gson()
+    val realmUtils = RealmUtils()
 
     companion object {
         val instance = LottoResultUtils()
@@ -55,45 +56,20 @@ class LottoResultUtils {
     }
 
     fun saveBoughtNumbers(lottoNumbers : BoughtLottoNumbers) {
-
-        var savedNumbers = spBought.getString("numbers")
-
-        if(savedNumbers == "") {
-            spBought.addString("numbers", gson.toJson(JSONObject()))
-            savedNumbers = spBought.getString("numbers")
-        }
-
-//        var tempType = object : TypeToken<Array<HashMap<String, BoughtLottoNumbers>>>() {}.type
-        var parsedNumbers = gson.fromJson(savedNumbers, JSONObject::class.java)
-
-        val random = Random()
-        val key = Date().time.toString() + "_" + random.nextInt().toString()
-
-        parsedNumbers.put(key, gson.toJson(lottoNumbers))
-        spBought.addString("numbers", gson.toJson(parsedNumbers))
+        realmUtils.insertBoughtNumbers(lottoNumbers, {key -> Log.d("kawa1lg1rl_realm", "insert $key")})
     }
 
-    fun getBoughtNumbers() : HashMap<String, BoughtLottoNumbers> {
-        var boughtNumbers : HashMap<String, BoughtLottoNumbers> = HashMap()
-        val savedNumbers = gson.fromJson(spBought.getString("numbers"), JSONObject::class.java)
-
-        debugLog(savedNumbers)
-
-        for(i in savedNumbers.keys()) {
-            var tempBoughtNumbers = gson.fromJson(savedNumbers.getString(i), BoughtLottoNumbers::class.java)
-            boughtNumbers.put(i, tempBoughtNumbers)
+    fun getBoughtNumbers() : HashMap<Int, BoughtLottoNumbers> {
+        val boughtNumbers : HashMap<Int, BoughtLottoNumbers> = HashMap()
+        realmUtils.readBoughtNumbers().map {
+            boughtNumbers.put(it.key, BoughtLottoNumbers(it.numbers.toTypedArray(), it.count))
         }
 
         return boughtNumbers
     }
 
-    fun removeBoughtNumbers(key: String) {
-        var all = spBought.getString("numbers")
-
-        var jsonObject = gson.fromJson(all, JSONObject::class.java)
-        jsonObject.remove(key)
-
-        spBought.addString("numbers", gson.toJson(jsonObject))
+    fun removeBoughtNumbers(key: Int) {
+        realmUtils.deleteMyBarcodeRealm(key, {isSuccess -> Log.d("kawa1lg1rl_realm", "deleted : $isSuccess")})
     }
 
     fun debugLog(json : JSONObject) {

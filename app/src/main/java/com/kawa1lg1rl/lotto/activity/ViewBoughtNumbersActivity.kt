@@ -26,7 +26,7 @@ class ViewBoughtNumbersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_view_lottonumbers)
 
         var items : List<BoughtLottoNumbers> = listOf()
-        var keys : List<String> = listOf()
+        var keys : List<Int> = listOf()
 
         val boughtNumbers = LottoResultUtils.instance.getBoughtNumbers()
 
