@@ -79,7 +79,7 @@ class RequestLottoResult {
                 contents = body.toString()
 
                 var result : LottoResult
-                if(contents.contains("점검") || true) {
+                if(contents.contains("점검")) {
                     contents = naverService.getLottoResultUsingCountN(count.toString() + "회로또").execute().body().toString()
 
                     var count = contents.split("</em>차 당첨번호")[0].split("<em>").last().replace("회", "").toInt()
