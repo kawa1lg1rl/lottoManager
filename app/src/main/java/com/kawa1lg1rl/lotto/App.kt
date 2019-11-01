@@ -3,6 +3,8 @@ package com.kawa1lg1rl.lotto
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.Menu
@@ -34,6 +36,14 @@ class App : Application() {
         
         fun getGlideObject(activity: Activity) : RequestManager {
             return Glide.with(activity)
+        }
+
+        fun isConnected() : Boolean {
+            val cm = context().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+            val isConnected: Boolean? = activeNetwork?.isConnected
+
+            return if(isConnected == null) false else isConnected
         }
     }
 

@@ -1,8 +1,10 @@
 package com.kawa1lg1rl.lotto.utils
 
 import android.util.Log
+import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.data.BoughtLottoNumbers
 import com.kawa1lg1rl.lotto.data.LottoResult
@@ -29,7 +31,7 @@ class LottoResultUtils {
         val spBought = MySharedPreferences(R.string.prefsBoughtNumbers)
 
         fun isFirstLaunch() : Boolean{
-            return !spUserInfo.getAllKey().contains("isLaunched")
+            return !spUserInfo.getString("isLaunched")?.toBoolean()
         }
     }
 
@@ -39,13 +41,20 @@ class LottoResultUtils {
     }
 
     fun changeCurrentLottoResult() {
-        var lottoResultString = spUserInfo.getString("currentLottoResult")
 
-        var lottoResult = gson.fromJson(lottoResultString, LottoResult::class.java)
-        var tempResult = RequestLottoResult.instance.requestCurrentLottoResult()
+        App.isConnected().also {
+            if( it == true ) {
+                var lottoResultString = spUserInfo.getString("currentLottoResult")
 
-        if( lottoResult.count != tempResult.count ) {
-            spUserInfo.addString("currentLottoResult", gson.toJson(tempResult))
+                var lottoResult = gson.fromJson(lottoResultString, LottoResult::class.java)
+                var tempResult = RequestLottoResult.instance.requestCurrentLottoResult()
+
+                if( lottoResult.count != tempResult.count ) {
+                    spUserInfo.addString("currentLottoResult", gson.toJson(tempResult))
+                }
+            } else {
+                Log.e("kawa1lg1rl_isConn", "changeCurrentLottoResult isConnected : $it")
+            }
         }
     }
 
