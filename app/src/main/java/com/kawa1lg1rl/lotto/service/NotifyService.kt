@@ -48,7 +48,7 @@ class NotifyService : Service() {
 
                 var lottoResult = LottoResultUtils.instance.getCurrentLottoResult()
 
-                var builder = NotificationCompat.Builder(sourcecontext, "kawa1lg1rlNoti")
+                var builder = NotificationCompat.Builder(context, "kawa1lg1rlNoti")
                     .setSmallIcon(R.drawable.number_1)
                     .setContentTitle("${lottoResult.count}회차")
                     .setContentText("당첨번호 : ${lottoResult.numbers.joinToString(", ")}")
