@@ -136,37 +136,6 @@ class RequestLottoResult {
         return splitedContents.split("1인당 당첨금액 ")[1].replace("," ,"").replace("원", "").toLong()
     }
 
-    data class Winning(var myWinningNumbers: Array<Int>, var winningNumbers: Array<Int>, var rank: Int)
-
-    fun isWinning(lottoNumbers : BoughtLottoNumbers) : Winning {
-
-        var count = lottoNumbers.count
-        var tempNumbers : LottoResult = requestResult(count)
-
-        var slicedNumbers = tempNumbers.numbers.sliceArray(0..5)
-
-        var winningNumbers : Array<Int> = arrayOf()
-
-        slicedNumbers.sort()
-        lottoNumbers.lottoNumbers.sort()
-
-        lottoNumbers.lottoNumbers.mapIndexed { index, i ->
-            if( slicedNumbers.contains(i)) {
-                winningNumbers = winningNumbers.plus( slicedNumbers[index] )
-            }
-        }
-
-        var winning: Int
-        winning = when(winningNumbers.size) {
-            6 -> 1
-            5 -> if( lottoNumbers.lottoNumbers.contains(tempNumbers.numbers[6]) ) 2 else 3
-            4 -> 4
-            3 -> 5
-            else -> 0
-        }
-
-        return Winning(winningNumbers, tempNumbers.numbers, winning)
-    }
 
     fun getNumbersStat(start : Int = 0, end : Int = 0, bonus: Int = 1) : Array<String> {
         var temp = if(start == 0) 1 else start

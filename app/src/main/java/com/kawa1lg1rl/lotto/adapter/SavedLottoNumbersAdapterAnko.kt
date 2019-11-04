@@ -55,7 +55,7 @@ class SavedLottoNumbersAdapterAnko(val context: Context, var itemList:List<Bough
         }
 
         holder.totalView.setOnClickListener {
-            var (myWinnings, winnings, rank) = RequestLottoResult.instance.isWinning(item)
+            var (myWinnings, winnings, rank) = LottoResultUtils.instance.isWinning(item)
 
             Toast.makeText(context, myWinnings.joinToString(separator = ",") + " 당첨번호는 " + winnings.joinToString(separator = "/") + " 내 순위는 " + rank, Toast.LENGTH_SHORT).show()
         }

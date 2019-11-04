@@ -35,7 +35,6 @@ class NotifyService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        var a = Random().nextInt()
         var context = this
         var scope = CoroutineScope(Dispatchers.Default)
 
@@ -46,21 +45,19 @@ class NotifyService : Service() {
                         LottoResultUtils.instance.changeCurrentLottoResult()
                     }
                 }
+
                 var lottoResult = LottoResultUtils.instance.getCurrentLottoResult()
 
-
-                var builder = NotificationCompat.Builder(context, "kawa1lg1rlNoti")
+                var builder = NotificationCompat.Builder(sourcecontext, "kawa1lg1rlNoti")
                     .setSmallIcon(R.drawable.number_1)
                     .setContentTitle("${lottoResult.count}회차")
                     .setContentText("당첨번호 : ${lottoResult.numbers.joinToString(", ")}")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setOngoing(true)
 
-
                 createNotificationChannel()
 
                 with(NotificationManagerCompat.from(context)) {
-                    // notificationId is a unique int for each notification that you must define
                     notify(1234, builder.build())
                 }
                 delay(60*60*1000)
