@@ -1,6 +1,7 @@
 package com.kawa1lg1rl.lotto.activity
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.adapter.SavedLottoNumbersAdapter
 import com.kawa1lg1rl.lotto.item.LottoNumbersItem
+import org.jetbrains.anko.textColor
 
 class ViewLottonumbersActivity : AppCompatActivity() {
 
@@ -60,6 +62,8 @@ class ViewLottonumbersActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "저장한 번호 보기"
+        title.textColor = Color.WHITE
+
 
         return super.onCreateOptionsMenu(menu)
     }

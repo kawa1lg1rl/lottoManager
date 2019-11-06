@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -25,6 +26,7 @@ import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.data.LottoResult
 import com.kawa1lg1rl.lotto.utils.LottoResultUtils
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 
@@ -87,22 +89,13 @@ class MainActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "로또 매니저"
+        title.textColor = Color.WHITE
+
 
         return super.onCreateOptionsMenu(menu)
     }
 
     fun setAllIntent() {
-        button_create_numbers_view_in_menu.setOnClickListener{
-            startActivity<CreateNumbersActivity>()
-        }
-
-        button_generated_random_numbers_in_menu.setOnClickListener{
-            startActivity<GenerateNumbersActivity>()
-        }
-
-        button_saved_numbers_in_menu.setOnClickListener {
-            startActivity<ViewLottonumbersActivity>()
-        }
 
         button_tax_in_menu.setOnClickListener {
             startActivity<TaxActivity>("firstPrize" to RequestLottoResult.currentResult.firstPrize)

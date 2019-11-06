@@ -2,6 +2,7 @@ package com.kawa1lg1rl.lotto.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,7 @@ import com.kawa1lg1rl.lotto.adapter.InputLottoNumbersAdapter
 import com.kawa1lg1rl.lotto.data.MySharedPreferences
 import kotlinx.android.synthetic.main.lottonumbers_view2.*
 import kotlinx.android.synthetic.main.activity_create_numbers.*
+import org.jetbrains.anko.textColor
 
 class CreateNumbersActivity : AppCompatActivity() {
 
@@ -100,6 +102,7 @@ class CreateNumbersActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "번호 직접 생성"
+        title.textColor = Color.WHITE
 
         return super.onCreateOptionsMenu(menu)
     }

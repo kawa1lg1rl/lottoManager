@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:background="#E3F2FD"
             android:gravity="center"
             android:orientation="vertical"
             android:weightSum="8"
@@ -87,12 +86,22 @@
                 android:text="test" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_generated_random_numbers"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.7"
             android:text="랜덤 번호 생성"
+            android:autoSizeTextType="uniform"
+            />
+
+        <Button
+            android:id="@+id/button_create_numbers_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:text="번호 직접 생성"
             android:autoSizeTextType="uniform"
             />
 
@@ -104,6 +113,37 @@
             android:text="생성된 번호 보기"
             android:autoSizeTextType="uniform"
             />
+
+
+        <Button
+            android:id="@+id/button_bought_number_in_menu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:text="구입한 번호 저장"
+            android:autoSizeTextType="uniform"
+            />
+
+        <Button
+            android:id="@+id/button_qrcode_scan_in_menu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:text="QR코드로 당첨확인"
+            android:autoSizeTextType="uniform"
+            />
+
+        <Button
+            android:id="@+id/button_view_bought_number_in_menu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:text="구입한 번호 보기"
+            android:autoSizeTextType="uniform"
+            />
     </LinearLayout>
 
     <ScrollView
@@ -111,8 +151,7 @@
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fillViewport="true"
-        >
+        android:fillViewport="true">
             <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -136,38 +175,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"/>
 
-            <TextView
-                android:id="@+id/button_create_numbers_view_in_menu"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="번호 직접 생성"
-                android:textColor="#000"
-                android:background="#efefef"
-                />
-
-            <TextView
-                android:id="@+id/button_generated_random_numbers_in_menu"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="번호 랜덤 생성"
-                android:textColor="#000"
-                android:background="#efefef"
-                />
-
-            <TextView
-                android:id="@+id/button_saved_numbers_in_menu"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="생성된 번호 보기"
-                android:textColor="#000"
-                android:background="#efefef"
-                />
 
             <TextView
                 android:id="@+id/button_tax_in_menu"
@@ -180,38 +187,6 @@
                 android:background="#efefef"
                 />
 
-            <TextView
-                android:id="@+id/button_bought_number_in_menu"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="구입한 번호 저장"
-                android:textColor="#000"
-                android:background="#efefef"
-                />
-
-            <TextView
-                android:id="@+id/button_qrcode_scan_in_menu"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="QR코드로 당첨확인"
-                android:textColor="#000"
-                android:background="#efefef"
-                />
-
-            <TextView
-                android:id="@+id/button_view_bought_number_in_menu"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="구입한 번호 보기"
-                android:textColor="#000"
-                android:background="#efefef"
-                />
 
             <TextView
                 android:id="@+id/button_stat_in_menu"
@@ -223,6 +198,7 @@
                 android:textColor="#000"
                 android:background="#efefef"
                 />
+
         </LinearLayout>
     </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>

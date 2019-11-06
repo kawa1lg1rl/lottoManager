@@ -1,6 +1,7 @@
 package com.kawa1lg1rl.lotto.activity
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import com.kawa1lg1rl.lotto.R
 import kotlinx.android.synthetic.main.activity_tax.*
+import org.jetbrains.anko.textColor
 
 class TaxActivity : AppCompatActivity() {
 
@@ -91,6 +93,8 @@ class TaxActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "세금 계산기"
+        title.textColor = Color.WHITE
+
 
         return super.onCreateOptionsMenu(menu)
     }

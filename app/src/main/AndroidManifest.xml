@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 지도앱 쓰기위해서 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 
     <application
         android:name=".App"
@@ -18,30 +22,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.QrScanActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ViewBoughtNumbersActivity"
-            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.QrScanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ViewBoughtNumbersActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.BoughtNumbersActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.TaxActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".activity.TaxActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CreateNumbersActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ViewLottonumbersActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.StatActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".activity.ViewLottonumbersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".activity.GenerateNumbersActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.StartAdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".activity.StartAdActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,14 +60,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation"/>
+            tools:replace="screenOrientation" />
 
-        <service
-            android:name=".service.NotifyService" />
+        <service android:name=".service.NotifyService" />
     </application>
 
 </manifest>

@@ -7,16 +7,14 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.kawa1lg1rl.lotto.R
 import android.widget.Toast
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.Menu
 import android.webkit.WebViewClient
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
-import org.jetbrains.anko.AnkoComponent
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.verticalLayout
-import org.jetbrains.anko.webView
+import org.jetbrains.anko.*
 
 class QrScanActivity : AppCompatActivity() {
     lateinit var resultUrl:String
@@ -50,6 +48,8 @@ class QrScanActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "QR코드 당첨 확인"
+        title.textColor = Color.WHITE
+
 
         return super.onCreateOptionsMenu(menu)
     }

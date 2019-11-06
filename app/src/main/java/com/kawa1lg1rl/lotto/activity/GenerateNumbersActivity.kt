@@ -1,6 +1,7 @@
 package com.kawa1lg1rl.lotto.activity
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.kawa1lg1rl.lotto.item.LottoNumbersItem
 import com.kawa1lg1rl.lotto.R
 import kotlinx.android.synthetic.main.activity_generate_numbers.*
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.textColor
 
 class GenerateNumbersActivity : AppCompatActivity() {
 
@@ -68,6 +70,8 @@ class GenerateNumbersActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "번호 랜덤 생성"
+        title.textColor = Color.WHITE
+
 
         return super.onCreateOptionsMenu(menu)
     }

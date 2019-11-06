@@ -1,12 +1,21 @@
 package com.kawa1lg1rl.lotto.activity
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.activity.fragment.StatNumberFragment
 import com.kawa1lg1rl.lotto.activity.fragment.StatNumberFragment2
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
@@ -38,9 +47,9 @@ class StatActivity : AppCompatActivity() {
 
 
                 button {
-                    text = "테스트용"
+                    text = "통계 추가 예정"
                 }.lparams(weight = 5f, height = matchParent, width = 0).onClick {
-                    supportFragmentManager.beginTransaction().replace(fragmentLayoutId, testView).commit()
+
                 }
             }
 
@@ -50,6 +59,41 @@ class StatActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(id, statNumber).commit()
             }
         }
+    }
+
+
+    var isOpenMenuBar: Boolean = false
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        var actionBar : ActionBar = supportActionBar!!
+        actionBar.setDisplayShowCustomEnabled(true)
+        actionBar.setDisplayHomeAsUpEnabled(false)  //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
+        actionBar.setDisplayShowTitleEnabled(false) //액션바에 표시되는 제목의 표시유무를 설정합니다.
+        actionBar.setDisplayShowHomeEnabled(false)  //홈 아이콘을 숨김처리합니다.
+
+        var inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        var actionBarView = inflater.inflate(R.layout.custom_title_bar, null)
+
+        actionBar.setCustomView(actionBarView)
+
+
+        var btnMenu = findViewById<ImageButton>(R.id.btnMenu)
+
+        btnMenu.setOnClickListener {
+            if(isOpenMenuBar == false) {
+                main_drawer_layout.openDrawer(left_menu_bar)
+                isOpenMenuBar = !isOpenMenuBar
+            } else {
+                main_drawer_layout.closeDrawer(left_menu_bar)
+                isOpenMenuBar = !isOpenMenuBar
+            }
+        }
+
+        var title = findViewById<TextView>(R.id.title)
+        title.text = "통계"
+        title.textColor = Color.WHITE
+
+
+        return super.onCreateOptionsMenu(menu)
     }
 
 }

@@ -1,6 +1,7 @@
 package com.kawa1lg1rl.lotto.activity
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.kawa1lg1rl.lotto.utils.LottoResultUtils
 import kotlinx.android.synthetic.main.activity_bought_numbers.*
 import kotlinx.android.synthetic.main.lottonumbers_view2.*
 import org.jetbrains.anko.longToast
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
@@ -111,6 +113,7 @@ class BoughtNumbersActivity : AppCompatActivity() {
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "구입 번호 입력"
+        title.textColor = Color.WHITE
 
         return super.onCreateOptionsMenu(menu)
     }
