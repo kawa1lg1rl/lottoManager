@@ -27,7 +27,6 @@
             android:id="@+id/generateRandomNumbersButton"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:autoSizeTextType="uniform"
             android:text="생성하기"/>
 
     </LinearLayout>

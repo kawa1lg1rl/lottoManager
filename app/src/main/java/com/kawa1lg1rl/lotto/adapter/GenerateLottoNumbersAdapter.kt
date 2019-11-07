@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.kawa1lg1rl.lotto.item.LottoNumbersItem
 import com.kawa1lg1rl.lotto.R
@@ -51,6 +52,7 @@ class GenerateLottoNumbersAdapter(val context: Context, val itemList:List<LottoN
         // 버튼에 clickListener 설정
         holder.saveButton!!.setOnClickListener {
             Log.d("kawa1lg1rl_tag!!", " = saved data = ")
+            Toast.makeText(context, "번호가 저장되었습니다.", Toast.LENGTH_SHORT).show()
             item.numbers!!.map {
                 Log.d("kawa1lg1rl_tag!!", " - $it")
             }

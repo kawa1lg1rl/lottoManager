@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     fun viewAds() {
 
         var adRequest = AdRequest.Builder()
-//            .addTestDevice("B722EDC53A549C919F47DE9600254A28")
+            .addTestDevice("B722EDC53A549C919F47DE9600254A28")
             .build()
         MobileAds.initialize(this, getString(R.string.app_id))
 

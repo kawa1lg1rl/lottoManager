@@ -44,7 +44,7 @@
         android:id="@+id/lottonumbers_button"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_weight="1.2"
+        android:layout_weight="2"
         android:autoSizeTextType="uniform"
         android:text="" />
 
