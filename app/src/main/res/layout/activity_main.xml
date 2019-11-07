@@ -40,6 +40,7 @@
                 android:layout_weight="2"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
+                android:textColor="#000000"
                 android:text="test" />
 
             <LinearLayout
@@ -74,6 +75,7 @@
                 android:layout_weight="1"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
+                android:textColor="#000000"
                 android:text="test" />
 
             <TextView
@@ -83,6 +85,7 @@
                 android:layout_weight="1"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
+                android:textColor="#000000"
                 android:text="test" />
         </LinearLayout>
 
@@ -165,15 +168,31 @@
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true"
                 android:text="상세 메뉴입니다"
-                android:textColor="#f70"
+                android:textColor="#000000"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textSize="24dp" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"/>
+
+
+                <Button
+                    android:id="@+id/button_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="안내 및 인삿말"
+                    android:autoSizeTextType="uniform"
+                    />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"/>
 
 
             <TextView

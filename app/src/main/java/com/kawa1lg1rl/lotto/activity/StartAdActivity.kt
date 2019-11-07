@@ -4,6 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.service.NotifyService
@@ -12,6 +16,8 @@ import kotlinx.android.synthetic.main.activity_start_ad.*
 import org.jetbrains.anko.*
 
 class StartAdActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_ad)
@@ -55,6 +61,7 @@ class StartAdActivity : AppCompatActivity() {
     }
 
     fun inflateMainActivity() {
+
         var nextIntent : Intent = Intent(this, MainActivity::class.java)
         nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 

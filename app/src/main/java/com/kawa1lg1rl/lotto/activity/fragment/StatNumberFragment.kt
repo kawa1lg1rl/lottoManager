@@ -41,8 +41,7 @@ class StatNumberFragment : Fragment() {
 
         val main = verticalLayout {
             linearLayout {
-                weightSum = 4f
-                lparams(weight = 1f, width = matchParent, height = 0)
+                lparams(weight = 0.5f, width = matchParent, height = 0)
                 val startEditText = editText ("1") {
                     inputType = InputType.TYPE_CLASS_NUMBER
                 }.lparams(weight = 0.5f, height = matchParent, width = 0)
@@ -52,7 +51,7 @@ class StatNumberFragment : Fragment() {
                 }.lparams(weight = 0.5f, height = matchParent, width = 0)
 
                 val isContainSecondNumber = spinner {
-                    adapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, listOf("포함", "미포함"))
+                    adapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, listOf("보너스 번호 포함", "보너스 번호 미포함"))
                 }.lparams(weight = 2f, height = matchParent, width = 0)
 
                 button("조회") {

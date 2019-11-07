@@ -17,17 +17,28 @@ import com.kawa1lg1rl.lotto.R
 import com.kawa1lg1rl.lotto.network.RequestLottoResult
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.kawa1lg1rl.lotto.App
 import com.kawa1lg1rl.lotto.data.LottoResult
 import com.kawa1lg1rl.lotto.utils.LottoResultUtils
+import kotlinx.android.synthetic.main.custom_title_bar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
+import kotlin.coroutines.coroutineContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,9 +49,50 @@ class MainActivity : AppCompatActivity() {
     var lottonumbersArray: List<ImageView> = listOf()
     var requestLottoResult:RequestLottoResult? = null
 
+
+    companion object {
+        lateinit var ad : InterstitialAd
+        var isShowed = false
+    }
+
+    fun viewAds() {
+
+        var adRequest = AdRequest.Builder()
+//            .addTestDevice("B722EDC53A549C919F47DE9600254A28")
+            .build()
+        MobileAds.initialize(this, getString(R.string.app_id))
+
+        ad = InterstitialAd(this)
+        ad.adUnitId = getString(R.string.ad_id)
+
+        ad.loadAd(adRequest)
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if(isShowed == false) {
+            viewAds()
+            CoroutineScope(Dispatchers.Main).async {
+                while(true) {
+                    Log.d("kawa1lg1rl_debug", "ad async")
+
+                    delay(500)
+                    if(isShowed == true) {
+                        break
+                    } else {
+                        if(ad.isLoaded) {
+                            ad.show()
+                            isShowed = true
+                        } else {
+                            Log.d("kawa1lg1rl_debug", "isLoaded ${ad.isLoaded}")
+                        }
+                    }
+                }
+            }
+        }
 
         setAllIntent()
 
@@ -87,6 +139,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        button_talk.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://open.kakao.com/o/sHMeLREb")))
+        }
+
         var title = findViewById<TextView>(R.id.title)
         title.text = "로또 매니저"
         title.textColor = Color.WHITE
@@ -124,6 +180,15 @@ class MainActivity : AppCompatActivity() {
         button_stat_in_menu.setOnClickListener {
             startActivity<StatActivity>()
         }
+        button_create_numbers_view.setOnClickListener {
+            startActivity<CreateNumbersActivity>()
+        }
+
+        button_intro.setOnClickListener {
+            startActivity<IntroActivity>()
+        }
+
+
     }
 
     fun setCurrentLottoView(lottoResult : LottoResult? = null) {
@@ -144,6 +209,8 @@ class MainActivity : AppCompatActivity() {
             lottonumbersArray[count].loadImage(resources.getIdentifier("number_$it", "drawable", packageName))
             count ++
         }
+
+
 
         lottonumbers_number_plus.loadImage(resources.getIdentifier("plus", "drawable", packageName))
     }

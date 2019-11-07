@@ -3,6 +3,7 @@ package com.kawa1lg1rl.lotto.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.content.Context
+import android.graphics.Color
 import android.view.Gravity
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
@@ -30,13 +31,13 @@ class StatNumbersAdapter(val context: Context, var itemList:Array<String>) :
     override fun onBindViewHolder(holder: StatNumbersHolder, position: Int) {
         var item = itemList[position]
 
-        holder.count.setText((position + 1).toString())
+        holder.count.loadImage(context.resources.getIdentifier("number_${position + 1}", "drawable", context.packageName))
         holder.stat.setText(item + "회")
 
     }
 
     inner class StatNumbersHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val count : TextView = itemView.findViewById(countView)
+        val count : ImageView = itemView.findViewById(countView)
         val stat : TextView = itemView.findViewById(statView)
     }
 
@@ -46,18 +47,24 @@ class StatNumbersAdapter(val context: Context, var itemList:Array<String>) :
     // Anko를 이용한 Recycler View
     inner class StatNumbersView : AnkoComponent<ViewGroup> {
         override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
-            linearLayout {
-                lparams(height = dip(60), width = matchParent)
+            verticalLayout {
+                lparams(height = dip(30), width = matchParent)
 
-                textView {
-                    id = countView
-                    gravity = Gravity.CENTER
-                }.lparams(weight = 1f, height = matchParent, width = 0)
+                linearLayout {
+                    lparams(weight = 0.99f, height = 0, width = matchParent)
+                    imageView {
+                        id = countView
+                    }.lparams(weight = 1f, height = matchParent, width = 0)
 
-                textView {
-                    id = statView
-                    gravity = Gravity.CENTER
-                }.lparams(weight = 1f, height = matchParent, width = 0)
+                    textView {
+                        id = statView
+                        gravity = Gravity.CENTER
+                    }.lparams(weight = 1f, height = matchParent, width = 0)
+                }
+
+                view {
+                    backgroundColor = Color.BLACK
+                }.lparams(weight = 0.01f, height = 0, width = matchParent)
             }
         }
     }

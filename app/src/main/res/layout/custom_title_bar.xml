@@ -3,14 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="8.3">
     <ImageButton
         android:id="@+id/btnMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
-        android:layout_marginRight="20dp"
+        android:layout_weight="0.5"
         android:background="@drawable/ic_menu_24px"/>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        />
 
     <TextView
         android:text=""
@@ -20,5 +25,14 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6.5"/>
+
+    <ImageButton
+        android:id="@+id/button_talk"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/talk"
+
+        />
 
 </LinearLayout>

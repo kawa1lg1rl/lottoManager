@@ -64,7 +64,6 @@ class ViewLottonumbersActivity : AppCompatActivity() {
         title.text = "저장한 번호 보기"
         title.textColor = Color.WHITE
 
-
         return super.onCreateOptionsMenu(menu)
     }
 }

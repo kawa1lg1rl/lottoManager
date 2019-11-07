@@ -62,7 +62,6 @@ class StatActivity : AppCompatActivity() {
     }
 
 
-    var isOpenMenuBar: Boolean = false
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var actionBar : ActionBar = supportActionBar!!
         actionBar.setDisplayShowCustomEnabled(true)
@@ -71,27 +70,19 @@ class StatActivity : AppCompatActivity() {
         actionBar.setDisplayShowHomeEnabled(false)  //홈 아이콘을 숨김처리합니다.
 
         var inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        var actionBarView = inflater.inflate(R.layout.custom_title_bar, null)
+        var actionBarView = inflater.inflate(R.layout.custom_title_bar_inmenu, null)
 
         actionBar.setCustomView(actionBarView)
 
+        var backButton = findViewById<ImageButton>(R.id.backButton)
 
-        var btnMenu = findViewById<ImageButton>(R.id.btnMenu)
-
-        btnMenu.setOnClickListener {
-            if(isOpenMenuBar == false) {
-                main_drawer_layout.openDrawer(left_menu_bar)
-                isOpenMenuBar = !isOpenMenuBar
-            } else {
-                main_drawer_layout.closeDrawer(left_menu_bar)
-                isOpenMenuBar = !isOpenMenuBar
-            }
+        backButton.setOnClickListener {
+            finish()
         }
 
         var title = findViewById<TextView>(R.id.title)
         title.text = "통계"
         title.textColor = Color.WHITE
-
 
         return super.onCreateOptionsMenu(menu)
     }
